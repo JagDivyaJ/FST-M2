@@ -1,15 +1,22 @@
 version: '3'
 services:
     postgres:
-        image: 'docker.io/postgres:16-alpine'
+        image: 'postgres:latest'
         environment:
             - POSTGRES_PASSWORD=postgres_password
+            - POSTGRES_DB=simple_blog_api
     api:
+        image: divyajag/simple_blog
         depends_on:
             - postgres
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        ports:
+            - '3000:3000'
         environment:
             - POSTGRES_USERNAME=postgres
-            - PGHOST=postgres
+            - POSTGRES_HOST=postgres
             - POSTGRES_DB=simple_blog_api
             - POSTGRES_PASSWORD=postgres_password
             - POSTGRES_PORT=5432
