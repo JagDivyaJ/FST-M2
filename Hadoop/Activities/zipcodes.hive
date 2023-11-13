@@ -1,0 +1,18 @@
+-- Drop tables
+DROP TABLE zipcodes;
+
+-- Create table
+CREATE TABLE zipcodes
+(RecordNumber int, Country string, City string, Zipcode int)
+PARTITIONED BY (State string)
+CLUSTERED BY (Zipcode) INTO 5 BUCKETS
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ',';
+
+-- Load data into table
+LOAD DATA LOCAL INPATH '/root/zipcodes.csv' INTO TABLE zipcodes;
+
+-- Export the result
+INSERT OVERWRITE LOCAL DIRECTORY '/root/hiveOutput'
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+SELECT * FROM zipcodes WHERE State='PR' and zipcode=704;

@@ -1,0 +1,2 @@
+Any text will do.
+It worked without insert command.
